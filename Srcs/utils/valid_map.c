@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 17:55:42 by caonguye          #+#    #+#             */
-/*   Updated: 2025/05/16 14:26:31 by tripham          ###   ########.fr       */
+/*   Created: 2025/05/16 14:23:05 by tripham           #+#    #+#             */
+/*   Updated: 2025/05/16 14:28:22 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "cub3d.h"
 
-int	main(int ac, char **av)
+int	valid_map(char *av)
 {
-	t_cub	cub;
-	int		fd;
+	int	len;
+	int	fd;
 
-	if (ac != 2)
+	if (!av[0] || ft_spaces(av))
 	{
-		ft_printf_fd(2, "Error:\nWrong input!\n");
-		return (EXIT_FAILURE);
+		ft_printf_fd(2, "")
 	}
-	fd = valid_map(av[1]);
-	ft_memset(&cub, 0, sizeof(t_cub));
-	read_map(av[1], &cub.map);
-	exit(1);
 }

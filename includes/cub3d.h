@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 17:56:04 by caonguye          #+#    #+#             */
-/*   Updated: 2025/05/16 12:35:03 by tripham          ###   ########.fr       */
+/*   Updated: 2025/05/16 13:59:21 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_3D_H
-# define CUB_3D_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
 # include "../library/libft/libft.h"
 # include "../library/ft_printf_fd/ft_printf.h"
@@ -28,9 +28,9 @@
 //windowwidth 2160/64
 # define WINDOW_WIDTH 34
 
-# define BUFFER_SIZE 2041
+# define BUFFER_SIZE 2048
 
-# define ENT_IMG 14
+// # define ENT_IMG 14
 
 //Wall and Ground
 // # define WALL1 "game_assets/wall/w1.png"
@@ -54,6 +54,7 @@
 
 /*	t_point
 *	Net point (row, col), as a index used for map->grid
+*	2D real coordinate
 */
 typedef struct s_point
 {
@@ -156,8 +157,8 @@ typedef struct s_ray
     void        *win;       // MLX window
     t_map        map;       // map data: textures and colors
     t_player     player;    // camera/player
-    int          screen_w;  // window width
-    int          screen_h;  // window height
+    int          wdow_w;  // window width
+    int          wdow_h;  // window height
     t_ray      **rays;      // array of ray pointers, length = screen_w
     // … you will add asset manager, sprites, image buffer, etc. here
 */
@@ -167,47 +168,10 @@ typedef struct s_cub
 	void		*win;
 	t_map		map;
 	t_player	pler;
-	int			screen_w;
-	int			screen_h;
+	int			wdow_w;
+	int			wdow_h;
 	t_ray		**rays;
 }	t_cub;
 
-//Utilities
-int32_t	execution(char **av);
-
-//PARSING
-//read_map
 void	read_map(char *map_file, t_map *map);
-
-//map_validation
-void	map_validation(t_map *map);
-
-void	assets_validation(void);
-//utils
-void	character_count(t_map *map, int32_t row);
-void	file_validation(char *map_file, int32_t *fd);
-
-//bfs
-void	enqueue(t_queue *q, t_point point);
-t_point	dequeue(t_queue *q);
-int32_t	is_empty(t_queue *q);
-void	assign_dimension(t_dimension *d);
-int32_t	bfs(t_map *map, int32_t width, int32_t length);
-t_queue	*create_queue(int32_t size);
-void	ft_free_queue(t_queue *q, t_map *map);
-
-//ERROR_HANDLING
-void	game_map_error(int32_t status, char *msg, t_map *map);
-void	map_file_error(int32_t status, char *msg, int32_t fd);
-void	path_error(int32_t status, char *msg, t_map *map);
-void	memory_error(t_queue *q, int32_t status, char *msg, t_map *map);
-
-//EXECUTION
-int		game_start(t_solong *game);
-void	graphic(t_solong *game);
-void	display_img_to_windows(t_solong *game);
-void	game_control(mlx_key_data_t keypress, void *param);
-void	game_end(t_solong *game, int exit_status);
-void	game_error(const char *msg, t_solong *game);
-
 #endif

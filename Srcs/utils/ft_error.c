@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 17:55:42 by caonguye          #+#    #+#             */
-/*   Updated: 2025/05/16 14:26:31 by tripham          ###   ########.fr       */
+/*   Created: 2025/05/16 14:29:08 by tripham           #+#    #+#             */
+/*   Updated: 2025/05/16 18:04:08 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "cub3d.h"
 
-int	main(int ac, char **av)
+int	ft_multi_err_ret(char *str1, char *str2, int num)
 {
-	t_cub	cub;
-	int		fd;
-
-	if (ac != 2)
-	{
-		ft_printf_fd(2, "Error:\nWrong input!\n");
-		return (EXIT_FAILURE);
-	}
-	fd = valid_map(av[1]);
-	ft_memset(&cub, 0, sizeof(t_cub));
-	read_map(av[1], &cub.map);
-	exit(1);
+	ft_printf_fd(2, "\n[Error]\n%s: %s\n\n", str1, str2);
+	return (num);
 }

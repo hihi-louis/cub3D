@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_space.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 17:55:42 by caonguye          #+#    #+#             */
-/*   Updated: 2025/05/16 14:26:31 by tripham          ###   ########.fr       */
+/*   Created: 2025/05/16 14:25:09 by tripham           #+#    #+#             */
+/*   Updated: 2025/05/16 14:25:36 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	ft_spaces(char *s)
 {
-	t_cub	cub;
-	int		fd;
-
-	if (ac != 2)
+	while (*s)
 	{
-		ft_printf_fd(2, "Error:\nWrong input!\n");
-		return (EXIT_FAILURE);
+		if (*s != 32 && (*s < 9 || *s > 13))
+			return (0);
+		s++;
 	}
-	fd = valid_map(av[1]);
-	ft_memset(&cub, 0, sizeof(t_cub));
-	read_map(av[1], &cub.map);
-	exit(1);
+	return (1);
 }
