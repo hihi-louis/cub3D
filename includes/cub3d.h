@@ -6,172 +6,47 @@
 /*   By: tripham <tripham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 17:56:04 by caonguye          #+#    #+#             */
-/*   Updated: 2025/05/16 13:59:21 by tripham          ###   ########.fr       */
+/*   Updated: 2025/05/18 22:44:19 by tripham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../library/libft/libft.h"
-# include "../library/ft_printf_fd/ft_printf.h"
-# include <fcntl.h>
-# include <errno.h>
-//# include "MLX42.h"
+# define WIDTH 1280
+# define HEIGHT 960
+# define PI 3.14159265359
+// # define FOV 1.04719755120
+// # define CELL_PX 32
 
-//Resolution 4k
-# define PIXEL 64
-
-//windowlength 3840/64
-# define WINDOW_LENGTH 60
-
-//windowwidth 2160/64
-# define WINDOW_WIDTH 34
-
-# define BUFFER_SIZE 2048
-
-// # define ENT_IMG 14
-
-//Wall and Ground
-// # define WALL1 "game_assets/wall/w1.png"
-// # define WALL2 "game_assets/wall/w2.png"
-// # define WALL3 "game_assets/wall/w3.png"
-// # define WALL4 "game_assets/wall/w4.png"
-// # define WALLL "game_assets/wall/left.png"
-// # define WALLR "game_assets/wall/right.png"
-// # define WALLT "game_assets/wall/top.png"
-// # define WALLB "game_assets/wall/bottom.png"
-// # define GROUND "game_assets/wall/ground.png"
-
-//Character
-// # define CHARACTER "game_assets/character/character.png"
-
-//Objects
-// # define OPENED_GATE "game_assets/objects/gate/open.png"
-// # define CLOSED_GATE "game_assets/objects/gate/close.png"
-// # define COLLECTIBLES "game_assets/objects/Collectibles/soul.png"
-// # define OBSTACLES	"game_assets/wall/obstacles.png"
-
-/*	t_point
-*	Net point (row, col), as a index used for map->grid
-*	2D real coordinate
-*/
-typedef struct s_point
-{
-	int32_t	row;
-	int32_t	col;
-}	t_point;
-
-/*	t_dpoint
-*	Real point (maps coordinates in double type)
-*/
-typedef struct s_dpoint
-{
-	double	x;
-	double	y;
-}	t_dpoint;
-
-/*	t_color
-*	RGBA color is packed into uint32_t
-*/
-typedef struct s_color
-{
-	uint32_t	r;
-	uint32_t	g;
-	uint32_t	b;
-	uint32_t	a;
-}	t_color;
-
-/*
-*char   *no;   	        -> file path for the North wall texture
-*char   *so;   	        -> file path for the South wall texture
-*char   *we;   	        -> file path for the West wall texture
-*char   *ea;   	        -> file path for the East wall texture
-*char   **grid;     	-> 2D map array containing characters: '0', '1', 'N', 'S', 'E', 'W'
-*t_color  floor;    	-> floor color
-*t_color  ceiling;  	-> ceiling color
-*int      width;    	-> number of columns in the map
-*int      height;   	-> number of rows in the map
-*-> All info of map + textures + color
-*/
-typedef struct s_map
-{
-	char		*no;
-	char		*so;
-	char		*we;
-	char		*ea;
-	char		**grid;
-	t_color		f;
-	t_color		c;
-	int			width;
-	int			height;
-}	t_map;
-/*
-    t_dpoint    pos;    // current position
-    t_dpoint    prev;   // position before moving
-    double      angle;  // viewing angle (in radians)
-    double      speed;  // movement speed
-	-> All info of a player/camera
-*/
-typedef struct s_player
-{
-	t_dpoint	pos;
-	t_dpoint	prev;
-	double		angle;
-	double		speed;
-}	t_player;
-
-/*
-*	HORIZONTAL,
-*	VERTICAL
-* -> Result of 1 ray in ray-casting
-*/
-typedef enum s_hit_dir
-{
-	HOR,
-	VER,
-}	t_hit_dir;
-
-/*
- t_dpoint    start;      // starting position (player.pos)
-    t_dpoint    hit_pos;    // actual collision point
-    t_point     hit_cell;   // grid cell where the collision occurred
-    double      distance;   // distance (fish-eye correction applied)
-    t_hit_dir   hit_dir;    // direction of collision (horizontal or vertical)
-    int         tex_id;     // texture ID (0–3 corresponding to NO, SO, WE, EA)
-    int         tex_x;      // pixel offset within the texture
-*/
-typedef struct s_ray
-{
-	t_dpoint	start;
-	t_dpoint	hit_pos;
-	t_point		hit_cell;
-	double		dis;
-	t_hit_dir	hit_dir;
-	int			tex_id;
-	int			tex_x;
-}	t_ray;
+# include <stdio.h>
+# include <float.h>
+# include <math.h>
+# include "libft.h"
+# include "ft_printf.h"
+# include "../Library/get_next_line/get_next_line.h"
+# include "map.h"
+# include "player.h"
+# include "ray_casting.h"
+# include "utility.h"
+# include "MLX42.h"
 
 /* Complete application context
  void        *mlx;       // MLX42 context
-    void        *win;       // MLX window
     t_map        map;       // map data: textures and colors
     t_player     player;    // camera/player
-    int          wdow_w;  // window width
-    int          wdow_h;  // window height
     t_ray      **rays;      // array of ray pointers, length = screen_w
-    // … you will add asset manager, sprites, image buffer, etc. here
+    //add asset manager, sprites, image buffer, etc.
 */
 typedef struct s_cub
 {
-	void		*mlx;
-	void		*win;
+	mlx_t		*mlx;
 	t_map		map;
-	t_player	pler;
-	int			wdow_w;
-	int			wdow_h;
+	t_player	player;
+	int32_t		mouse_x;
+	int32_t		mouse_y;
 	t_ray		**rays;
 }	t_cub;
 
-void	read_map(char *map_file, t_map *map);
+
 #endif
